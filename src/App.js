@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Repository from "./pages/Repository";
+import Home from "./pages/Home";
+import styled from "styled-components";
 
-function App() {
+const Main = styled.main`
+  padding: 0 1rem 1rem 1rem;
+`;
+
+const Title = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+`;
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Main>
+        <Title>GitHub repository browser</Title>
+        <Switch>
+          <Route path="/:repoId">
+            <Repository />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </Main>
+    </Router>
   );
 }
-
-export default App;
