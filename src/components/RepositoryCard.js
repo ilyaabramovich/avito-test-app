@@ -17,6 +17,10 @@ const RepoCardBody = styled.div`
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   padding: 1rem;
+
+  @media (max-width: 599px) {
+    padding: 0.5rem;
+  }
 `;
 
 const RepoCardHeader = styled.div`
@@ -28,6 +32,10 @@ const RepoCardHeader = styled.div`
   margin-bottom: 0;
   background-color: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+
+  @media (max-width: 599px) {
+    padding: 0.5rem;
+  }
 
   &:first-child {
     border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
@@ -52,6 +60,7 @@ const RepoLanguageBadge = styled.span`
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
 
   &:not(:last-child) {
     margin-right: 0.5rem;
@@ -61,6 +70,7 @@ const RepoLanguageBadge = styled.span`
 const RepoCardTitle = styled.h2`
   margin: 0;
   font-size: 1.25rem;
+  word-break: break-all;
 `;
 
 export default function RepositoryCard({
