@@ -10,6 +10,7 @@ import RepositoriesList from "../components/RepositoriesList";
 import { Button } from "../components/Button";
 import { SearchInput } from "../components/SearchInput";
 import styled from "styled-components";
+import { ErrorAlert } from "../components/ErrorAlert";
 
 const SearchForm = styled.form`
   display: flex;
@@ -20,6 +21,7 @@ export default function Home() {
   const [repos, setRepos] = useState(null);
   const [totalRepos, setTotalRepos] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [query, setQuery] = useLocalStorage("search", "");
   const [page, setPage] = useLocalStorage("page", 1);
 
@@ -29,15 +31,23 @@ export default function Home() {
     return query ? fetchReposByName(query, page) : fetchPopularRepos(page);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setLoading(true);
-    setPage(1);
-    fetchInitialRepos().then((data) => {
+  const fetchRepos = async () => {
+    try {
+      setLoading(true);
+      const data = await fetchInitialRepos();
       setTotalRepos(data.total_count);
       setRepos(data.items.map(transformRepositoryData));
+    } catch (error) {
+      setError(error);
+    } finally {
       setLoading(false);
-    });
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setPage(1);
+    fetchRepos();
   };
 
   const handlePageClick = (page) => {
@@ -45,16 +55,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    setLoading(true);
-    fetchInitialRepos().then((data) => {
-      setTotalRepos(data.total_count);
-      setRepos(data.items.map(transformRepositoryData));
-      setLoading(false);
-    });
+    fetchRepos();
   }, [page]);
 
   return (
     <>
+      {error && <ErrorAlert>{error.message}</ErrorAlert>}
       <SearchForm onSubmit={handleSubmit}>
         <SearchInput
           value={query}
@@ -65,7 +71,9 @@ export default function Home() {
           placeholder="Search GitHub repositories"
           aria-label="Search GitHub repositories"
         />
-        <Button type="submit">{loading ? "Searching" : "Search"}</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Searching" : "Search"}
+        </Button>
       </SearchForm>
       {repos && repos.length === 0 && (
         <p>No repositories with the given name were found.</p>

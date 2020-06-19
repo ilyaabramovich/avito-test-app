@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import styled from "styled-components";
 import {
   fetchRepoById,
-  fetchRepoLanguages,
   fetchRepoContributors,
+  fetchRepoLanguages,
 } from "../api";
-import styled from "styled-components";
+import { ErrorAlert } from "../components/ErrorAlert";
 import RepositoryCard from "../components/RepositoryCard";
+import { StyledLink } from "../components/StyledLink";
 
-const BackLink = styled(Link)`
+const BackLink = styled(StyledLink)`
   display: block;
   margin-bottom: 1rem;
 `;
@@ -16,27 +18,49 @@ const BackLink = styled(Link)`
 export default function Repository() {
   const { repoId } = useParams();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [repoLanguages, setRepoLanguages] = useState([]);
   const [repoContributors, setRepoContributors] = useState([]);
   const [repo, setRepo] = useState({});
 
   useEffect(() => {
-    setLoading(true);
-    fetchRepoById(repoId).then((repo) => {
-      setRepo(repo || {});
-      fetchRepoContributors(repo.ownerName, repo.name).then((contributors) =>
-        setRepoContributors(contributors)
-      );
-      fetchRepoLanguages(repo.ownerName, repo.name).then((languages) =>
-        setRepoLanguages(languages)
-      );
-      setLoading(false);
-    });
+    const fetchRepo = async () => {
+      try {
+        setLoading(true);
+        const repo = await fetchRepoById(repoId);
+        setRepo(repo || {});
+        const contributors = await fetchRepoContributors(
+          repo.ownerName,
+          repo.name
+        );
+        setRepoContributors(contributors);
+        const languages = await fetchRepoLanguages(repo.ownerName, repo.name);
+        setRepoLanguages(languages);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRepo();
   }, []);
+
+  if (error) {
+    return (
+      <>
+        <BackLink as={Link} to="/">
+          Back to repositories list
+        </BackLink>
+        {error && <ErrorAlert>{error.message}</ErrorAlert>}
+      </>
+    );
+  }
 
   return (
     <>
-      <BackLink to="/">Back to repositories list</BackLink>
+      <BackLink as={Link} to="/">
+        Back to repositories list
+      </BackLink>
       {repo && (
         <RepositoryCard
           {...repo}
