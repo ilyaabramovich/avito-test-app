@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { StyledLink } from "./StyledLink";
 
 const RepoList = styled.ul`
   margin-bottom: 1rem;
@@ -59,17 +60,9 @@ const GithubStars = styled.span`
   }
 `;
 
-const RepoNameLink = styled(Link)`
-  text-decoration: none;
-
+const RepoNameLink = styled(StyledLink)`
   @media (max-width: 599px) {
     padding: 0.25rem 0;
-  }
-
-  &:focus {
-    border-color: #80bdff;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
 `;
 
@@ -82,7 +75,9 @@ export default function RepositoriesList({ loading, repos }) {
     <RepoList>
       {repos.map(({ name, id, stars, lastCommit, url }) => (
         <RepoListItem key={id}>
-          <RepoNameLink to={`/${id}`}>{name}</RepoNameLink>
+          <RepoNameLink as={Link} to={`/${id}`}>
+            {name}
+          </RepoNameLink>
           <GithubStars role="img" aria-label="Github stars">
             ⭐{stars}
           </GithubStars>
