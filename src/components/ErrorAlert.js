@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 export const ErrorAlert = styled.div`
   color: #721c24;
   background-color: #f8d7da;

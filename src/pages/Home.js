@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import {
   fetchPopularRepos,
   fetchReposByName,
   transformRepositoryData,
 } from "../api";
-import { useLocalStorage } from "../hooks";
+import { Button } from "../components/Button";
+import { ErrorAlert } from "../components/ErrorAlert";
 import Paginator from "../components/Paginator";
 import RepositoriesList from "../components/RepositoriesList";
-import { Button } from "../components/Button";
 import { SearchInput } from "../components/SearchInput";
-import styled from "styled-components";
-import { ErrorAlert } from "../components/ErrorAlert";
+import { useLocalStorage } from "../hooks";
 
 const SearchForm = styled.form`
   display: flex;

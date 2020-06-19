@@ -1,8 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Repository from "./pages/Repository";
-import Home from "./pages/Home";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
+import Home from "./pages/Home";
+import Repository from "./pages/Repository";
 
 const Main = styled.main`
   padding: 0 1rem 1rem 1rem;

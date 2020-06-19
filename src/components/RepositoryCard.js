@@ -48,6 +48,11 @@ const RepoLanguage = styled.div`
   flex-wrap: wrap;
 `;
 
+const Paragraph = styled.p`
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+`;
+
 const RepoLanguageBadge = styled.span`
   color: #fff;
   background-color: #007bff;
@@ -111,18 +116,20 @@ export default function RepositoryCard({
         </span>
       </RepoCardHeader>
       <RepoCardBody>
+        <Paragraph>{description}</Paragraph>
         <RepoLanguage>
           {languages.length > 0 &&
             languages.map((language) => (
               <RepoLanguageBadge key={language}>{language}</RepoLanguageBadge>
             ))}
         </RepoLanguage>
-        <p>{description}</p>
-        <p>Last commit: {new Date(lastCommit).toLocaleString()}</p>
+        <Paragraph>
+          Last commit: {new Date(lastCommit).toLocaleString()}
+        </Paragraph>
 
         {contributors.length > 0 && (
           <>
-            <p>Top contributors:</p>
+            <Paragraph>Top contributors:</Paragraph>
             <RepositoryContributorsList contributors={contributors} />
           </>
         )}
