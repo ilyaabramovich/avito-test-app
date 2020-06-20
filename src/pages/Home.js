@@ -25,8 +25,6 @@ export default function Home() {
   const [query, setQuery] = useLocalStorage("search", "");
   const [page, setPage] = useLocalStorage("page", 1);
 
-  const handleSearchTextChange = (event) => setQuery(event.target.value);
-
   const fetchInitialRepos = () => {
     return query ? fetchReposByName(query, page) : fetchPopularRepos(page);
   };
@@ -44,6 +42,12 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    fetchRepos();
+  }, [page]);
+
+  const handleSearchTextChange = (event) => setQuery(event.target.value);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setPage(1);
@@ -53,10 +57,6 @@ export default function Home() {
   const handlePageClick = (page) => {
     setPage(page);
   };
-
-  useEffect(() => {
-    fetchRepos();
-  }, [page]);
 
   return (
     <>
@@ -72,7 +72,7 @@ export default function Home() {
           aria-label="Search GitHub repositories"
         />
         <Button type="submit" disabled={loading}>
-          {loading ? "Searching" : "Search"}
+          Search
         </Button>
       </SearchForm>
       {repos && repos.length === 0 && (
