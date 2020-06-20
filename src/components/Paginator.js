@@ -2,14 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { REPOS_PER_PAGE, MAX_VISIBLE_PAGES } from "../constants";
 import { Button } from "./Button";
+import { StyledList } from "./StyledList";
 
-const Pagination = styled.ul`
+const Pagination = styled(StyledList)`
   display: flex;
-  margin: 0;
-  padding: 0;
-  list-style: none;
   justify-content: center;
-  border-radius: 0.25rem;
 `;
 
 const PaginatorButton = styled(Button)`

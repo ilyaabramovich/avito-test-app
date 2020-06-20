@@ -2,13 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { StyledLink } from "./StyledLink";
+import { StyledList } from "./StyledList";
 
-const RepoList = styled.ul`
+const RepoList = styled(StyledList)`
   margin-bottom: 1rem;
-  padding: 0;
-  list-style: none;
   border: 1px solid #ced4da;
-  border-radius: 0.25rem;
 `;
 
 const RepoListItem = styled.li`
