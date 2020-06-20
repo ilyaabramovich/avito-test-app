@@ -49,7 +49,7 @@ export default function Repository() {
     return (
       <>
         <BackLink as={Link} to="/">
-          Back to repositories list
+          &#8592; Back to repositories list
         </BackLink>
         {error && <ErrorAlert>{error.message}</ErrorAlert>}
       </>
@@ -59,7 +59,7 @@ export default function Repository() {
   return (
     <>
       <BackLink as={Link} to="/">
-        Back to repositories list
+        &#8592; Back to repositories list
       </BackLink>
       {repo && (
         <RepositoryCard
