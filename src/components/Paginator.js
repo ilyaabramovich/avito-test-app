@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { REPOS_PER_PAGE } from "../constants";
+import { REPOS_PER_PAGE, MAX_VISIBLE_PAGES } from "../constants";
 import { Button } from "./Button";
 
 const Pagination = styled.ul`
@@ -33,7 +33,7 @@ const PaginatorButton = styled(Button)`
 export default function Paginator({ onPageClick, page, total }) {
   const pageNumbers = [];
   const lastPageNumber = Math.min(
-    REPOS_PER_PAGE,
+    MAX_VISIBLE_PAGES,
     Math.ceil(total / REPOS_PER_PAGE)
   );
 
